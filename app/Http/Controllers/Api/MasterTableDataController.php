@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterData;
+use App\Models\MasterTableData;
 use App\Traits\SendResponse;
 use Illuminate\Http\Request;
 
-class MasterDataController extends Controller
+class MasterTableDataController extends Controller
 {
     use SendResponse;
 
     public function index($master_table_name)
     {
-        $data = MasterData::where('master_table_name', $master_table_name)
+        $data = MasterTableData::where('master_table_name', $master_table_name)
             ->get()
             ->map(function ($item) {
                 $newData = $item->data;
@@ -41,7 +41,7 @@ class MasterDataController extends Controller
                 'data' => 'required|array',
             ]);
 
-            $data = MasterData::create($validated);
+            $data = MasterTableData::create($validated);
 
             return $this->sendResponse($data, 'Data created successfully');
         } catch (\Throwable $e) {
@@ -51,7 +51,7 @@ class MasterDataController extends Controller
 
     public function show($master_table_name, $id)
     {
-        $data = MasterData::find($id);
+        $data = MasterTableData::find($id);
         if (! $data) {
             return $this->sendResponse([], 'Data not found', false, 404);
         }
@@ -61,7 +61,7 @@ class MasterDataController extends Controller
 
     public function update($master_table_name, Request $request, $id)
     {
-        $data = MasterData::find($id);
+        $data = MasterTableData::find($id);
         if (! $data) {
             return $this->sendResponse([], 'Data not found', false, 404);
         }
@@ -81,7 +81,7 @@ class MasterDataController extends Controller
 
     public function destroy($master_table_name, $id)
     {
-        $data = MasterData::find($id);
+        $data = MasterTableData::find($id);
         if (! $data) {
             return $this->sendResponse([], 'Data not found', false, 404);
         }

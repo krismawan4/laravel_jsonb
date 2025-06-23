@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master_table', function (Blueprint $table) {
+        Schema::create('master_table_colum', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('master_table_id');
+            $table->string('master_table_name');
+            $table->jsonb('data');
             $table->timestamps();
             $table->softDeletes();
-        });
 
+            $table->foreign('master_table_id')->references('id')->on('master_table')->onDelete('cascade');
+        });
     }
 
     /**
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master_table');
+        Schema::dropIfExists('master_table_colum');
     }
 };

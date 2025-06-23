@@ -3,19 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MasterData extends Model
+class MasterTableData extends Model
 {
-    use SoftDeletes;
-
-    protected $table = 'master_data';
+    protected $table = 'master_table_data';
 
     protected $fillable = [
+        'parent_id',
         'master_table_id',
         'master_table_name',
-        'parent_id',
-        'parent_table_name',
         'data',
     ];
 

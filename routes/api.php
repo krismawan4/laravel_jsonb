@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\MasterDataController;
+use App\Http\Controllers\Api\MasterTableColumnController;
 use App\Http\Controllers\API\MasterTableController;
+use App\Http\Controllers\Api\MasterTableDataController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,8 +10,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('/master/table', MasterTableController::class);
-Route::apiResource('/master/data/{master_table_name}/records', MasterDataController::class)
-    ->parameters([
-        'records' => 'id', // agar tidak pakai {{records}} di URL
-    ]);
+Route::apiResource('/master-table', MasterTableController::class);
+Route::apiResource('/master-table-column/{master_table_name}/records', MasterTableColumnController::class)
+    ->parameters(['records' => 'id'])
+    ->names('column.records'); // <--- tambah prefix nama route
+
+Route::apiResource('/master-table-data/{master_table_name}/records', MasterTableDataController::class)
+    ->parameters(['records' => 'id'])
+    ->names('data.records'); // <--- beda nama dengan di atas

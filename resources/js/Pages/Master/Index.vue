@@ -10,7 +10,7 @@ const isLoading = ref(true);
 onMounted(async () => {
     try {
         const response = await axios.get(
-            "http://localhost:8000/api/master/table"
+            "http://localhost:8000/api/master-table"
         );
         if (response.data.is_success) {
             masterData.value = response.data.data;

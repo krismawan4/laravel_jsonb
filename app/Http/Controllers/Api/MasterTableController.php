@@ -23,7 +23,6 @@ class MasterTableController extends Controller
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:100|unique:master_table,name',
-                'data' => 'required|array',
             ]);
 
             $data = MasterTable::create($validated);
@@ -53,7 +52,6 @@ class MasterTableController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:100|unique:master_table,name,'.$id,
-            'data' => 'sometimes|required|array',
         ]);
 
         $data->update($validated);

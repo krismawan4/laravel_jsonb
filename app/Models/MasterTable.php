@@ -13,10 +13,5 @@ class MasterTable extends Model
 
     protected $fillable = [
         'name',
-        'data',
-    ];
-
-    protected $casts = [
-        'data' => 'array',
     ];
 }
