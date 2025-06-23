@@ -492,12 +492,12 @@ const deleteProp = (index) => {
                                         Edit
                                     </a>
 
-                                    <button
-                                        class="text-xs text-red-600 hover:underline"
+                                    <a
+                                        class="text-xs text-red-600 cursor-pointer hover:underline"
                                         @click.stop="deleteProp(index)"
                                     >
                                         Hapus
-                                    </button>
+                                    </a>
                                 </div>
                             </li>
                         </ul>
