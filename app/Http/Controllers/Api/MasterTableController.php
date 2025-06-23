@@ -13,7 +13,7 @@ class MasterTableController extends Controller
 
     public function index()
     {
-        $data = MasterTable::all();
+        $data = MasterTable::orderBy('id', 'asc')->get();
 
         return $this->sendResponse($data, 'Data retrieved successfully');
     }
