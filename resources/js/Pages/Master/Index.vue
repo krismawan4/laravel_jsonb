@@ -97,11 +97,11 @@ const handleDelete = async (id) => {
 };
 
 const navigateToColumns = (masterId) => {
-    router.visit(`/master-data-column/${masterId}`);
+    router.visit(`/master-table-column/${masterId}`);
 };
 
 const navigateToData = (masterId) => {
-    router.visit(`/master-data-table/${masterId}`);
+    router.visit(`/master-table-data/${masterId}`);
 };
 
 onMounted(fetchMasterData);
