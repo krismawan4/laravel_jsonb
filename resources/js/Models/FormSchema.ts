@@ -17,5 +17,9 @@ export interface FieldObject {
 
 export interface FormSchema {
     name: string;
+    data: FieldObject;
+}
+export interface TableDataSchema {
+    name: string;
     data: FieldObject[];
 }

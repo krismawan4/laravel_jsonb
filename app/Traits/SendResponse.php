@@ -63,8 +63,6 @@ trait SendResponse
             }
         }
 
-        dd('kklkl');
-
         return $this->sendResponse($errors, $message, false, 500);
     }
 }

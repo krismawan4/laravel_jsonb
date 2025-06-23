@@ -1,0 +1,46 @@
+
+  GET|HEAD        / .............................................................................................. 
+  GET|HEAD        api/master-table .......................... master-table.index › API\MasterTableController@index
+  POST            api/master-table .......................... master-table.store › API\MasterTableController@store
+  GET|HEAD        api/master-table-column/{master_table_id}/records column.records.index › Api\MasterTableColumnC…
+  POST            api/master-table-column/{master_table_id}/records column.records.store › Api\MasterTableColumnC…
+  GET|HEAD        api/master-table-column/{master_table_id}/records/{id} column.records.show › Api\MasterTableCol…
+  PUT|PATCH       api/master-table-column/{master_table_id}/records/{id} column.records.update › Api\MasterTableC…
+  DELETE          api/master-table-column/{master_table_id}/records/{id} column.records.destroy › Api\MasterTable…
+  GET|HEAD        api/master-table-data/{master_table_id}/records data.records.index › Api\MasterTableDataControl…
+  POST            api/master-table-data/{master_table_id}/records data.records.store › Api\MasterTableDataControl…
+  GET|HEAD        api/master-table-data/{master_table_id}/records/{id} data.records.show › Api\MasterTableDataCon…
+  PUT|PATCH       api/master-table-data/{master_table_id}/records/{id} data.records.update › Api\MasterTableDataC…
+  DELETE          api/master-table-data/{master_table_id}/records/{id} data.records.destroy › Api\MasterTableData…
+  GET|HEAD        api/master-table/{master_table} ............. master-table.show › API\MasterTableController@show
+  PUT|PATCH       api/master-table/{master_table} ......... master-table.update › API\MasterTableController@update
+  DELETE          api/master-table/{master_table} ....... master-table.destroy › API\MasterTableController@destroy
+  GET|HEAD        api/user ....................................................................................... 
+  GET|HEAD        confirm-password .................... password.confirm › Auth\ConfirmablePasswordController@show
+  POST            confirm-password ...................................... Auth\ConfirmablePasswordController@store
+  GET|HEAD        dashboard ............................................................................ dashboard
+  POST            email/verification-notification verification.send › Auth\EmailVerificationNotificationControlle…
+  GET|HEAD        forgot-password ..................... password.request › Auth\PasswordResetLinkController@create
+  POST            forgot-password ........................ password.email › Auth\PasswordResetLinkController@store
+  GET|HEAD        login ....................................... login › Auth\AuthenticatedSessionController@create
+  POST            login ................................................ Auth\AuthenticatedSessionController@store
+  POST            logout .................................... logout › Auth\AuthenticatedSessionController@destroy
+  GET|HEAD        master ................................................... master.index › MasterController@index
+  GET|HEAD        master-data-column/{master_id} .. master-data-column.index › MasterController@master_data_column
+  GET|HEAD        master-data-table/{master_id} ..... master-data-table.index › MasterController@master_data_table
+  PUT             password ...................................... password.update › Auth\PasswordController@update
+  GET|HEAD        profile .................................................. profile.edit › ProfileController@edit
+  PATCH           profile .............................................. profile.update › ProfileController@update
+  DELETE          profile ............................................ profile.destroy › ProfileController@destroy
+  GET|HEAD        register ....................................... register › Auth\RegisteredUserController@create
+  POST            register ................................................... Auth\RegisteredUserController@store
+  POST            reset-password ............................... password.store › Auth\NewPasswordController@store
+  GET|HEAD        reset-password/{token} ...................... password.reset › Auth\NewPasswordController@create
+  GET|HEAD        sanctum/csrf-cookie .......... sanctum.csrf-cookie › Laravel\Sanctum › CsrfCookieController@show
+  GET|HEAD        storage/{path} ................................................................... storage.local
+  GET|HEAD        up ............................................................................................. 
+  GET|HEAD        verify-email ...................... verification.notice › Auth\EmailVerificationPromptController
+  GET|HEAD        verify-email/{id}/{hash} ...................... verification.verify › Auth\VerifyEmailController
+
+                                                                                               Showing [42] routes
+

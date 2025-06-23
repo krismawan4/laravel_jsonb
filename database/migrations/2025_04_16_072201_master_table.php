@@ -25,6 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('master_table_data');
+        Schema::dropIfExists('master_table_column');
         Schema::dropIfExists('master_table');
     }
 };

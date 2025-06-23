@@ -7,6 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
+import { router } from "@inertiajs/vue3";
 
 const masterData = ref([]);
 const isLoading = ref(true);
@@ -95,6 +96,14 @@ const handleDelete = async (id) => {
     }
 };
 
+const navigateToColumns = (masterId) => {
+    router.visit(`/master-data-column/${masterId}`);
+};
+
+const navigateToData = (masterId) => {
+    router.visit(`/master-data-table/${masterId}`);
+};
+
 onMounted(fetchMasterData);
 </script>
 
@@ -181,9 +190,21 @@ onMounted(fetchMasterData);
                                     </button>
                                     <button
                                         @click="handleDelete(master.id)"
-                                        class="text-red-600 hover:text-red-900"
+                                        class="mr-2 text-red-600 hover:text-red-900"
                                     >
                                         Hapus
+                                    </button>
+                                    <button
+                                        @click="navigateToColumns(master.id)"
+                                        class="mr-2 text-green-600 hover:text-green-900"
+                                    >
+                                        Kolom
+                                    </button>
+                                    <button
+                                        @click="navigateToData(master.id)"
+                                        class="text-purple-600 hover:text-purple-900"
+                                    >
+                                        Data
                                     </button>
                                 </td>
                             </tr>

@@ -15,7 +15,7 @@ class MasterTableController extends Controller
     {
         $data = MasterTable::orderBy('id', 'asc')->get();
 
-        return $this->sendResponse($data, 'Data retrieved successfully');
+        return $this->sendResponse($data->toArray(), 'Data retrieved successfully');
     }
 
     public function store(Request $request)
@@ -40,7 +40,7 @@ class MasterTableController extends Controller
             return $this->sendResponse([], 'Data not found', false, 404);
         }
 
-        return $this->sendResponse($data, 'Data retrieved successfully');
+        return $this->sendResponse($data->toArray(), 'Data retrieved successfully');
     }
 
     public function update(Request $request, $id)
@@ -56,7 +56,7 @@ class MasterTableController extends Controller
 
         $data->update($validated);
 
-        return $this->sendResponse($data, 'Data updated successfully');
+        return $this->sendResponse($data->toArray(), 'Data updated successfully');
     }
 
     public function destroy($id)
