@@ -285,7 +285,7 @@ const baseUrl = "http://127.0.0.1:8000/api"; // Ganti dengan URL API Anda
                                 <th
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300"
                                 >
-                                    Properties
+                                    Validation
                                 </th>
                                 <th
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300"
