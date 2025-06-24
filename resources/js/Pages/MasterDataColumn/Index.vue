@@ -76,7 +76,7 @@ const resetForm = () => {
         data: {
             type: "",
             label: "",
-            order: 0,
+            order: "0",
             field_name: "",
             is_visible: true,
             is_editable: true,
@@ -425,7 +425,6 @@ const deleteProp = (index) => {
                             />
                         </div>
                         <div>
-                            <InputLabel for="type" value="Tipe Field" />
                             <FieldTypeSelect v-model="form.data.type" />
                         </div>
                         <div>

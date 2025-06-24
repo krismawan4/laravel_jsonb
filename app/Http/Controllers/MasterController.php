@@ -20,7 +20,7 @@ class MasterController extends Controller
         // dd($table->name);
 
         return Inertia::render('MasterDataColumn/Index', [
-            'master_table_id' => $request->master_table_id,
+            'master_table_id' => (int) $request->master_table_id,
             'master_table_name' => ucwords($table->name),
         ]);
     }

@@ -4,7 +4,7 @@
         <InputLabel for="type" value="Tipe Field" />
         <select
             id="type"
-            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+            class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
             v-model="model"
         >
             <option value="" disabled>Pilih tipe field</option>
@@ -22,6 +22,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import InputLabel from "@/Components/InputLabel.vue";
 
 // Much simpler with defineModel
 const model = defineModel();
