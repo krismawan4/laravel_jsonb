@@ -12,23 +12,23 @@ class MasterTableDataController extends Controller
 {
     use SendResponse;
 
-    public function index($master_table_name)
+    public function index($master_table_id)
     {
-        $data = MasterTableData::where('master_table_name', $master_table_name)
+        $data = MasterTableData::where('master_table_id', $master_table_id)
             ->get()
             ->map(function ($item) {
                 $newData = $item->data;
                 $newData['id'] = $item->id;
-                $newData['master_table_id'] = $item->master_table_id;
-                $newData['master_table_name'] = $item->master_table_name;
-                $newData['parent_id'] = $item->parent_id;
-                $newData['parent_table_name'] = $item->parent_table_name;
+                // $newData['master_table_id'] = $item->master_table_id;
+                // $newData['master_table_name'] = $item->master_table_name;
+                // $newData['parent_id'] = $item->parent_id;
+                // $newData['parent_table_name'] = $item->parent_table_name;
                 // dd($newData);
 
                 return $newData; // ambil isi kolom data-nya saja
             });
 
-        return $this->sendResponse($data, 'Data retrieved successfully');
+        return $this->sendResponse($data->toArray(), 'Data retrieved successfully');
     }
 
     public function store($master_table_name, Request $request)
@@ -63,7 +63,7 @@ class MasterTableDataController extends Controller
             return $this->sendResponse([], 'Data not found', false, 404);
         }
 
-        return $this->sendResponse($data, 'Data retrieved successfully');
+        return $this->sendResponse($data->toArray(), 'Data retrieved successfully');
     }
 
     public function update($master_table_name, Request $request, $id)
@@ -83,7 +83,7 @@ class MasterTableDataController extends Controller
 
         $data->update($validated);
 
-        return $this->sendResponse($data, 'Data updated successfully');
+        return $this->sendResponse($data->toArray(), 'Data updated successfully');
     }
 
     public function destroy($master_table_name, $id)

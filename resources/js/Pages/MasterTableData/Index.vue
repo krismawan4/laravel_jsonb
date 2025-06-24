@@ -9,6 +9,7 @@ import TextInput from "@/Components/TextInput.vue";
 import FieldTypeSelect from "@/Components/FieldTypeSelect.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TableHeader from "@/Components/TableHeader.vue";
+import TableBody from "@/Components/TableBody.vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -23,7 +24,6 @@ const props = defineProps({
 });
 
 const masterData = ref([]);
-const isLoading = ref(true);
 const showModal = ref(false);
 const formMode = ref("create");
 const form = ref({
@@ -121,26 +121,6 @@ const closeModal = () => {
     resetForm();
 };
 
-const fetchMasterData = async () => {
-    if (!props.master_table_id) {
-        console.error("Master table ID tidak valid");
-        return;
-    }
-
-    try {
-        const response = await axios.get(
-            `/api/master-table-data/${props.master_table_id}/records`
-        );
-        if (response.data.is_success) {
-            masterData.value = response.data.data;
-        }
-    } catch (error) {
-        console.error("Failed to fetch master data:", error);
-    } finally {
-        isLoading.value = false;
-    }
-};
-
 const handleSubmit = async () => {
     try {
         let response;
@@ -157,7 +137,7 @@ const handleSubmit = async () => {
         }
 
         if (response.data.is_success) {
-            await fetchMasterData();
+            // await fetchMasterData();
             closeModal();
         }
     } catch (error) {
@@ -172,7 +152,7 @@ const handleDelete = async (id) => {
                 `/api/master-table-data/${props.master_table_id}/records/${id}`
             );
             if (response.data.is_success) {
-                await fetchMasterData();
+                // await fetchMasterData();
             }
         } catch (error) {
             console.error("Failed to delete data:", error);
@@ -180,7 +160,7 @@ const handleDelete = async (id) => {
     }
 };
 
-onMounted(fetchMasterData);
+// onMounted(fetchMasterData);
 
 const newProp = ref({
     key: "",
@@ -249,16 +229,17 @@ const baseUrl = "http://127.0.0.1:8000/api"; // Ganti dengan URL API Anda
                 >
             </div>
 
-            <div v-if="isLoading">Loading...</div>
-
-            <div v-else>
-                <div class="overflow-x-auto">
-                    <table
-                        class="min-w-full bg-white rounded-lg shadow-sm dark:bg-gray-800"
-                    >
-                        <TableHeader :tableId="props.master_table_id" />
-                    </table>
-                </div>
+            <div class="overflow-x-auto">
+                <table
+                    class="min-w-full bg-white rounded-lg shadow-sm dark:bg-gray-800"
+                >
+                    <TableHeader :tableId="props.master_table_id" />
+                    <TableBody
+                        :master_table_id="props.master_table_id"
+                        @edit="openEditModal"
+                        @delete="handleDelete"
+                    />
+                </table>
             </div>
         </div>
 
