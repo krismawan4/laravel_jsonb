@@ -1,4 +1,4 @@
-<!-- FieldTypeSelect.vue (Using defineModel - Vue 3.3+) -->
+<!-- FieldTypeSelect.vue -->
 <template>
     <div>
         <InputLabel for="type" value="Tipe Field" />
@@ -9,7 +9,7 @@
         >
             <option value="" disabled>Pilih tipe field</option>
             <option
-                v-for="item in validationOptions"
+                v-for="item in fieldTypeStore.validationOptions"
                 :key="item.name"
                 :value="item.name"
             >
@@ -20,25 +20,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { onMounted } from "vue";
+import { useFieldTypeStore } from "@/stores/fieldTypeStore";
 import InputLabel from "@/Components/InputLabel.vue";
 
-// Much simpler with defineModel
+// defineModel (Vue 3.3+)
 const model = defineModel();
 
-const validationOptions = ref([]);
+// Pinia store
+const fieldTypeStore = useFieldTypeStore();
 
-const fetchValidationOptions = async () => {
-    try {
-        const response = await axios.get("/api/master-table-tipe");
-        if (response.data.is_success) {
-            validationOptions.value = response.data.data;
-        }
-    } catch (error) {
-        console.error("Gagal mengambil data validasi:", error);
+onMounted(() => {
+    if (fieldTypeStore.validationOptions.length === 0) {
+        fieldTypeStore.fetchValidationOptions();
     }
-};
-
-onMounted(fetchValidationOptions);
+});
 </script>

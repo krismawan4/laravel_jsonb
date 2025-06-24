@@ -169,7 +169,8 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import axios from "axios";
+import { storeToRefs } from "pinia";
+import { useValidationStore } from "@/stores/validationStore";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 
@@ -188,18 +189,17 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(["update:componentProps"]);
 
-// Reactive data
-const validations = ref([]);
-const selectedValidationId = ref("");
-const loading = ref(false);
-const error = ref("");
+// Pinia store
+const validationStore = useValidationStore();
+const { validations, loading, error } = storeToRefs(validationStore);
 
+// Reactive data
+const selectedValidationId = ref("");
 const newProp = ref({
     key: "",
     value: "",
     validation_message: "",
 });
-
 const editingPropIndex = ref(null);
 
 // Computed
@@ -209,36 +209,8 @@ const selectedValidation = computed(() => {
 });
 
 // Methods
-const fetchValidations = async () => {
-    loading.value = true;
-    error.value = "";
-
-    try {
-        const response = await axios.get(
-            `${props.baseUrl}/master-table-validation`
-        );
-
-        if (response.data.is_success) {
-            validations.value = response.data.data;
-        } else {
-            throw new Error(
-                response.data.message || "Failed to fetch validations"
-            );
-        }
-    } catch (err) {
-        error.value =
-            err.response?.data?.message ||
-            err.message ||
-            "Gagal mengambil data validasi";
-        console.error("Error fetching validations:", err);
-    } finally {
-        loading.value = false;
-    }
-};
-
 const selectValidation = () => {
     if (selectedValidation.value) {
-        // Auto-fill form with selected validation data
         newProp.value.key = selectedValidation.value.key;
         newProp.value.value = selectedValidation.value.value;
         newProp.value.validation_message = selectedValidation.value.message;
@@ -251,13 +223,9 @@ const addComponentProp = () => {
     const updatedProps = [...props.componentProps];
 
     if (editingPropIndex.value !== null) {
-        // update prop
-        updatedProps[editingPropIndex.value] = {
-            ...newProp.value,
-        };
+        updatedProps[editingPropIndex.value] = { ...newProp.value };
         editingPropIndex.value = null;
     } else {
-        // tambah baru
         updatedProps.push({ ...newProp.value });
     }
 
@@ -268,7 +236,6 @@ const addComponentProp = () => {
 const editProp = (index) => {
     const prop = props.componentProps[index];
     newProp.value = { ...prop };
-    // Simpan index yang sedang diedit
     editingPropIndex.value = index;
 };
 
@@ -290,12 +257,12 @@ const clearSelection = () => {
 
 // Lifecycle
 onMounted(() => {
-    fetchValidations();
+    validationStore.fetchValidations(props.baseUrl);
 });
 
-// Expose methods for parent component
+// Expose
 defineExpose({
-    fetchValidations,
     clearSelection,
+    fetchValidations: () => validationStore.fetchValidations(props.baseUrl),
 });
 </script>
