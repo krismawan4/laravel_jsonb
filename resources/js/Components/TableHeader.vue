@@ -44,7 +44,7 @@ const dynamicHeaders = ref([]);
 const fetchHeaders = async (id) => {
     try {
         const res = await axios.get(
-            `/api/master-table-column-header/${id}/records`
+            `/api/master-table-column/${id}/records-header`
         );
         if (res.data?.is_success && Array.isArray(res.data.data)) {
             dynamicHeaders.value = res.data.data;
