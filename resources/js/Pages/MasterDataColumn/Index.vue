@@ -432,7 +432,9 @@ const deleteProp = (index) => {
 
                     <!-- Form Tambah component_props -->
                     <div class="pt-4 mt-4 border-t">
-                        <h3 class="mb-2 font-semibold">Component Props</h3>
+                        <h3 class="mb-2 font-semibold dark:text-gray-300">
+                            Component Props
+                        </h3>
                         <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <InputLabel value="Key" />
