@@ -40,6 +40,25 @@ const form = ref({
     },
 });
 
+// Fungsi untuk konversi ke snake_case
+function toSnakeCase(text) {
+    return text
+        .normalize("NFD") // untuk menghapus aksen karakter
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\W+/g, " ") // ganti non-word jadi spasi
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "_");
+}
+
+// Auto-generate field_name dari label
+watch(
+    () => form.value.data.label,
+    (newLabel) => {
+        form.value.data.field_name = toSnakeCase(newLabel);
+    }
+);
+
 watch(
     () => props.master_table_id,
     (newValue) => {
@@ -244,11 +263,6 @@ const deleteProp = (index) => {
                                 <th
                                     class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300"
                                 >
-                                    Field Name
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-300"
-                                >
                                     Type
                                 </th>
                                 <th
@@ -286,9 +300,6 @@ const deleteProp = (index) => {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ master.data.label }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ master.data.field_name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
@@ -406,6 +417,7 @@ const deleteProp = (index) => {
                         <div>
                             <InputLabel for="field_name" value="Field Name" />
                             <TextInput
+                                :readonly="true"
                                 id="field_name"
                                 type="text"
                                 class="block w-full mt-1"
