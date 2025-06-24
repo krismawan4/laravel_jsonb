@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/master', [MasterController::class, 'index'])->name('master.index');
     Route::get('/master-table-column/{master_table_id}', [MasterController::class, 'master_table_column'])->name('master-table-column.index');
     Route::get('/master-table-data/{master_table_id}', [MasterController::class, 'master_table_data'])->name('master-table-data.index');
+
 });
 
 require __DIR__.'/auth.php';
