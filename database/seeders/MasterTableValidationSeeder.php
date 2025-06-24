@@ -31,11 +31,6 @@ class MasterTableValidationSeeder extends Seeder
                 'message' => 'Minimal 1 karakter',
             ],
             [
-                'key' => 'placeholder',
-                'value' => 'Enter value',
-                'message' => '',
-            ],
-            [
                 'key' => 'is_required',
                 'value' => 'true',
                 'message' => 'Input wajib diisi',

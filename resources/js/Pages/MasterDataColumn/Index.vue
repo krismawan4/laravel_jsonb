@@ -33,6 +33,7 @@ const form = ref({
         label: "",
         order: 0,
         field_name: "",
+        placeholder: "",
         is_visible: true,
         is_editable: true,
         default_value: null,
@@ -78,6 +79,7 @@ const resetForm = () => {
             label: "",
             order: "0",
             field_name: "",
+            placeholder: "",
             is_visible: true,
             is_editable: true,
             default_value: null,
@@ -101,6 +103,7 @@ const openEditModal = (master) => {
             label: "",
             order: 0,
             field_name: "",
+            placeholder: "",
             is_visible: true,
             is_editable: true,
             default_value: null,
@@ -217,6 +220,10 @@ const editProp = (index) => {
 const deleteProp = (index) => {
     form.value.data.component_props.splice(index, 1);
 };
+
+import ValidationSelect from "@/Components/ValidationSelect.vue";
+
+const baseUrl = "http://127.0.0.1:8000/api"; // Ganti dengan URL API Anda
 </script>
 
 <template>
@@ -415,13 +422,12 @@ const deleteProp = (index) => {
                             />
                         </div>
                         <div>
-                            <InputLabel for="field_name" value="Field Name" />
+                            <InputLabel for="placeholder" value="placeholder" />
                             <TextInput
-                                :readonly="true"
-                                id="field_name"
+                                id="placeholder"
                                 type="text"
                                 class="block w-full mt-1"
-                                v-model="form.data.field_name"
+                                v-model="form.data.placeholder"
                             />
                         </div>
                         <div>
@@ -439,79 +445,13 @@ const deleteProp = (index) => {
                     </div>
 
                     <!-- Form Tambah component_props -->
-                    <div class="pt-4 mt-4 border-t">
-                        <h3 class="mb-2 font-semibold dark:text-gray-300">
-                            Component Props
-                        </h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <InputLabel value="Key" />
-                                <TextInput
-                                    v-model="newProp.key"
-                                    class="w-full"
-                                />
-                            </div>
-                            <div>
-                                <InputLabel value="Value" />
-                                <TextInput
-                                    v-model="newProp.value"
-                                    class="w-full"
-                                />
-                            </div>
-                            <div>
-                                <InputLabel value="Pesan Validasi" />
-                                <TextInput
-                                    v-model="newProp.validation_message"
-                                    class="w-full"
-                                />
-                            </div>
-                        </div>
-                        <PrimaryButton
-                            class="mt-2"
-                            type="button"
-                            @click="addComponentProp"
-                        >
-                            + Tambah
-                        </PrimaryButton>
-                    </div>
-
-                    <!-- List component_props -->
-                    <div
-                        v-if="form.data.component_props.length"
-                        class="p-4 mt-4 bg-gray-100 rounded dark:bg-gray-500"
-                    >
-                        <ul class="pl-5 space-y-2 text-sm list-disc">
-                            <li
-                                v-for="(prop, index) in form.data
-                                    .component_props"
-                                :key="index"
-                                class="flex items-start justify-between gap-4 mb-1"
-                            >
-                                <div>
-                                    <strong>{{ prop.key }}:</strong>
-                                    {{ prop.value }}
-                                    <span v-if="prop.validation_message">
-                                        ({{ prop.validation_message }})
-                                    </span>
-                                </div>
-                                <div class="flex gap-2">
-                                    <a
-                                        class="text-sm text-blue-600 cursor-pointer hover:underline"
-                                        @click.stop="editProp(index)"
-                                    >
-                                        Edit
-                                    </a>
-
-                                    <a
-                                        class="text-sm text-red-600 cursor-pointer hover:underline"
-                                        @click.stop="deleteProp(index)"
-                                    >
-                                        Hapus
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <ValidationSelect
+                        :base-url="baseUrl"
+                        :component-props="form.data.component_props"
+                        @update:component-props="
+                            form.data.component_props = $event
+                        "
+                    />
 
                     <!-- Tombol Aksi -->
                     <div class="flex justify-end mt-6">
