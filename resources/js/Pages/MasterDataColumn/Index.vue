@@ -416,9 +416,6 @@ const deleteProp = (index) => {
                             <InputLabel for="type" value="Tipe Field" />
                             <FieldTypeSelect v-model="form.data.type" />
                         </div>
-                        <!-- Debug: Tampilkan nilai -->
-                        <p>Debug - Current value: "{{ form.data.type }}"</p>
-                        <p>Debug - Type: {{ typeof form.data.type }}</p>
                         <div>
                             <InputLabel for="order" value="Urutan" />
                             <TextInput
@@ -470,7 +467,7 @@ const deleteProp = (index) => {
                     <!-- List component_props -->
                     <div
                         v-if="form.data.component_props.length"
-                        class="p-4 mt-4 bg-gray-100 rounded dark:bg-gray-800"
+                        class="p-4 mt-4 bg-gray-100 rounded dark:bg-gray-500"
                     >
                         <ul class="pl-5 space-y-2 text-sm list-disc">
                             <li
@@ -488,14 +485,14 @@ const deleteProp = (index) => {
                                 </div>
                                 <div class="flex gap-2">
                                     <a
-                                        class="text-xs text-blue-600 cursor-pointer hover:underline"
+                                        class="text-sm text-blue-600 cursor-pointer hover:underline"
                                         @click.stop="editProp(index)"
                                     >
                                         Edit
                                     </a>
 
                                     <a
-                                        class="text-xs text-red-600 cursor-pointer hover:underline"
+                                        class="text-sm text-red-600 cursor-pointer hover:underline"
                                         @click.stop="deleteProp(index)"
                                     >
                                         Hapus
