@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('master_table_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->string('parent_table_name');
+            $table->string('parent_table_name')->nullable();
             $table->unsignedBigInteger('master_table_id');
             $table->string('master_table_name');
             $table->jsonb('data');

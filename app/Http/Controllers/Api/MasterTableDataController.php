@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MasterTable;
 use App\Models\MasterTableData;
 use App\Traits\SendResponse;
 use Illuminate\Http\Request;
@@ -35,11 +36,17 @@ class MasterTableDataController extends Controller
         try {
             $validated = $request->validate([
                 'master_table_id' => 'required|exists:master_table,id',
-                'master_table_name' => 'required|exists:master_table,name',
-                'parent_id' => 'nullable|exists:master_data,id',
-                'parent_table_name' => 'nullable|exists:master_table,name',
+                'parent_id' => 'nullable|exists:master_table_data,id',
                 'data' => 'required|array',
             ]);
+
+            $master_table = MasterTable::findOrFail($validated['master_table_id']);
+            $validated['master_table_name'] = $master_table->name;
+
+            if ($validated['parent_id'] != null) {
+                $parent_table = MasterTableData::find($validated['parent_id']);
+                $validated['parent_table_name'] = $parent_table->master_table_name;
+            }
 
             $data = MasterTableData::create($validated);
 
