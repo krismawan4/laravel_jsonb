@@ -10,7 +10,7 @@
             >
                 <option value="" disabled>Pilih validasi</option>
                 <option
-                    v-for="validation in validations"
+                    v-for="validation in filteredValidations"
                     :key="validation.id"
                     :value="validation.id"
                 >
@@ -106,18 +106,18 @@
                         </div>
                     </div>
                     <div class="flex space-x-2">
-                        <button
-                            @click="editProp(index)"
-                            class="text-sm text-blue-600 hover:text-blue-800"
+                        <a
+                            @click="editProp(index, prop.key)"
+                            class="text-sm text-blue-600 cursor-pointer hover:text-blue-800"
                         >
                             Edit
-                        </button>
-                        <button
+                        </a>
+                        <a
                             @click="deleteProp(index)"
-                            class="text-sm text-red-600 hover:text-red-800"
+                            class="text-sm text-red-600 cursor-pointer hover:text-red-800"
                         >
                             Delete
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -233,10 +233,12 @@ const addComponentProp = () => {
     clearSelection();
 };
 
-const editProp = (index) => {
+const editProp = (index, key) => {
     const prop = props.componentProps[index];
     newProp.value = { ...prop };
     editingPropIndex.value = index;
+    const validation = validations.value.find((v) => v.key === key);
+    selectedValidationId.value = validation.id;
 };
 
 const deleteProp = (index) => {
@@ -264,5 +266,10 @@ onMounted(() => {
 defineExpose({
     clearSelection,
     fetchValidations: () => validationStore.fetchValidations(props.baseUrl),
+});
+
+const filteredValidations = computed(() => {
+    const usedKeys = props.componentProps.map((prop) => prop.key);
+    return validations.value.filter((v) => !usedKeys.includes(v.key));
 });
 </script>
