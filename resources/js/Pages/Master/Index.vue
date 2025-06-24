@@ -44,9 +44,7 @@ const closeModal = () => {
 
 const fetchMasterData = async () => {
     try {
-        const response = await axios.get(
-            "http://localhost:8000/api/master-table"
-        );
+        const response = await axios.get("api/master-table");
         if (response.data.is_success) {
             masterData.value = response.data.data;
         }
@@ -61,13 +59,10 @@ const handleSubmit = async () => {
     try {
         let response;
         if (formMode.value === "create") {
-            response = await axios.post(
-                "http://localhost:8000/api/master-table",
-                form.value
-            );
+            response = await axios.post("api/master-table", form.value);
         } else {
             response = await axios.put(
-                `http://localhost:8000/api/master-table/${form.value.id}`,
+                `api/master-table/${form.value.id}`,
                 form.value
             );
         }
@@ -84,9 +79,7 @@ const handleSubmit = async () => {
 const handleDelete = async (id) => {
     if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
         try {
-            const response = await axios.delete(
-                `http://localhost:8000/api/master-table/${id}`
-            );
+            const response = await axios.delete(`api/master-table/${id}`);
             if (response.data.is_success) {
                 await fetchMasterData();
             }

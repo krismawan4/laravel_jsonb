@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/master', [MasterController::class, 'index'])->name('master.index');
-    Route::get('/master-table-column/{master_table_id}', [MasterController::class, 'master_table_column'])->name('master-table-column.index');
-    Route::get('/master-table-data/{master_table_id}', [MasterController::class, 'master_table_data'])->name('master-table-data.index');
+    Route::get('/master-table-column/{master_table_id}', [MasterController::class, 'masterTableColumn'])->name('master-table-column.index');
+    Route::get('/master-table-data/{master_table_id}', [MasterController::class, 'masterTableData'])->name('master-table-data.index');
 
 });
 

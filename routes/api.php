@@ -16,6 +16,7 @@ Route::apiResource('/master-table', MasterTableController::class);
 Route::apiResource('/master-table-column/{master_table_id}/records', MasterTableColumnController::class)
     ->parameters(['records' => 'id'])
     ->names('column.records'); // <--- tambah prefix nama route
+Route::get('/master-table-column-header/{master_table_id}/records', [MasterTableColumnController::class, 'tableHeader']);
 
 Route::apiResource('/master-table-data/{master_table_id}/records', MasterTableDataController::class)
     ->parameters(['records' => 'id'])
