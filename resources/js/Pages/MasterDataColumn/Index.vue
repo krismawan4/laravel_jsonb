@@ -6,6 +6,7 @@ import axios from "axios";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Modal from "@/Components/Modal.vue";
 import TextInput from "@/Components/TextInput.vue";
+import FieldTypeSelect from "@/Components/FieldTypeSelect.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import { router } from "@inertiajs/vue3";
 
@@ -302,7 +303,7 @@ const deleteProp = (index) => {
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex flex-col gap-1">
                                         <span
-                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+                                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full"
                                             :class="
                                                 master.data.is_visible
                                                     ? 'bg-green-100 text-green-800'
@@ -315,8 +316,9 @@ const deleteProp = (index) => {
                                                     : "Hidden"
                                             }}
                                         </span>
+
                                         <span
-                                            class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full"
+                                            class="inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full"
                                             :class="
                                                 master.data.is_editable
                                                     ? 'bg-green-100 text-green-800'
@@ -412,13 +414,11 @@ const deleteProp = (index) => {
                         </div>
                         <div>
                             <InputLabel for="type" value="Tipe Field" />
-                            <TextInput
-                                id="type"
-                                type="text"
-                                class="block w-full mt-1"
-                                v-model="form.data.type"
-                            />
+                            <FieldTypeSelect v-model="form.data.type" />
                         </div>
+                        <!-- Debug: Tampilkan nilai -->
+                        <p>Debug - Current value: "{{ form.data.type }}"</p>
+                        <p>Debug - Type: {{ typeof form.data.type }}</p>
                         <div>
                             <InputLabel for="order" value="Urutan" />
                             <TextInput
