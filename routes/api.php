@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/master-table', MasterTableController::class);
 
+Route::get('/master-table-column/{master_table_id}/records-form', [MasterTableColumnController::class, 'tableForm']);
 Route::get('/master-table-column/{master_table_id}/records-header', [MasterTableColumnController::class, 'tableHeader']);
 Route::apiResource('/master-table-column/{master_table_id}/records', MasterTableColumnController::class)
     ->parameters(['records' => 'id'])

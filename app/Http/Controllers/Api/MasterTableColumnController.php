@@ -37,6 +37,21 @@ class MasterTableColumnController extends Controller
 
         return $this->sendResponse($data, 'Data retrieved successfully');
     }
+    public function tableForm($master_table_id)
+    {
+        $data = MasterTableColumn::query()
+            ->select('data')
+            ->where('master_table_id', '=', $master_table_id)
+            ->orderBy('id', 'asc')
+            ->get()
+            ->pluck('data') // ambil hanya kolom data
+            // ->map(fn ($item) => $item['label']) // ambil label dari setiap item
+            ->toArray();
+
+        // dd($data);
+
+        return $this->sendResponse($data, 'Data retrieved successfully');
+    }
 
     public function store(Request $request)
     {

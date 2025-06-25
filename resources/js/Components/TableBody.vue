@@ -1,7 +1,7 @@
 <template>
     <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
         <!-- Loading state -->
-        <tr v-if="isLoading">
+        <tr v-if="store.loading">
             <td colspan="99" class="px-6 py-4 text-center text-gray-500">
                 <svg
                     class="w-5 h-5 mx-auto text-gray-500 animate-spin"
@@ -28,18 +28,16 @@
         </tr>
 
         <!-- Data rows dan empty state -->
-        <template v-if="!isLoading">
+        <template v-if="!store.loading">
             <tr
-                v-for="(row, index) in masterData"
+                v-for="(row, index) in store.data"
                 :key="row.id ?? index"
                 class="hover:bg-gray-50 dark:hover:bg-gray-700"
             >
-                <!-- Kolom ID -->
                 <td class="px-6 py-4 whitespace-nowrap">
                     {{ row.id }}
                 </td>
 
-                <!-- Kolom Dinamis -->
                 <td
                     v-for="[key, value] in filteredEntries(row)"
                     :key="key"
@@ -48,7 +46,6 @@
                     {{ value }}
                 </td>
 
-                <!-- Kolom Aksi -->
                 <td class="px-6 py-4 whitespace-nowrap">
                     <button
                         @click="$emit('edit', row)"
@@ -57,7 +54,7 @@
                         Edit
                     </button>
                     <button
-                        @click="$emit('delete', row.id)"
+                        @click="handleDelete(row.id)"
                         class="mr-2 text-red-600 hover:text-red-900"
                     >
                         Hapus
@@ -65,8 +62,7 @@
                 </td>
             </tr>
 
-            <!-- Jika tidak ada data -->
-            <tr v-if="masterData.length === 0">
+            <tr v-if="store.data.length === 0">
                 <td colspan="99" class="px-6 py-4 text-center text-gray-500">
                     Tidak ada data.
                 </td>
@@ -76,8 +72,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import axios from "axios";
+import { onMounted, watch } from "vue";
+import { useMasterDataStore } from "@/stores/masterDataStore";
 
 const props = defineProps({
     master_table_id: {
@@ -86,38 +82,28 @@ const props = defineProps({
     },
 });
 
-const masterData = ref([]);
-const isLoading = ref(true);
+const store = useMasterDataStore();
 
+// Helper untuk menyaring kolom
 const filteredEntries = (row) =>
     Object.entries(row).filter(([key]) => key !== "id");
 
-const fetchMasterData = async () => {
-    isLoading.value = true;
+// Fetch saat mount dan saat ID berubah
+onMounted(() => store.fetch(props.master_table_id));
+watch(
+    () => props.master_table_id,
+    (newId) => store.fetch(newId)
+);
 
-    if (!props.master_table_id) {
-        console.error("Master table ID tidak valid");
-        isLoading.value = false;
-        return;
-    }
-
-    try {
-        const response = await axios.get(
-            `/api/master-table-data/${props.master_table_id}/records`
-        );
-        if (response.data.is_success && Array.isArray(response.data.data)) {
-            masterData.value = response.data.data;
-        } else {
-            masterData.value = [];
+// Hapus data lewat store
+const handleDelete = async (id) => {
+    if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+        try {
+            await store.deleteRecord(props.master_table_id, id);
+            await store.fetch(props.master_table_id);
+        } catch (error) {
+            alert("Gagal menghapus data.");
         }
-    } catch (error) {
-        console.error("Failed to fetch master data:", error);
-        masterData.value = [];
-    } finally {
-        isLoading.value = false;
     }
 };
-
-onMounted(fetchMasterData);
-watch(() => props.master_table_id, fetchMasterData);
 </script>
