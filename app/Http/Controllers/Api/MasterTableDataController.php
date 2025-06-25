@@ -15,16 +15,11 @@ class MasterTableDataController extends Controller
     public function index($master_table_id)
     {
         $data = MasterTableData::where('master_table_id', $master_table_id)
+            ->orderBy('id','desc')
             ->get()
             ->map(function ($item) {
                 $newData = $item->data;
                 $newData['id'] = $item->id;
-                // $newData['master_table_id'] = $item->master_table_id;
-                // $newData['master_table_name'] = $item->master_table_name;
-                // $newData['parent_id'] = $item->parent_id;
-                // $newData['parent_table_name'] = $item->parent_table_name;
-                // dd($newData);
-
                 return $newData; // ambil isi kolom data-nya saja
             });
 
@@ -52,12 +47,13 @@ class MasterTableDataController extends Controller
 
     public function show($master_table_name, $id)
     {
-        $data = MasterTableData::find($id);
+        $data = MasterTableData::select('data')->find($id);
+
         if (! $data) {
             return $this->sendResponse([], 'Data not found', false, 404);
         }
 
-        return $this->sendResponse($data->toArray(), 'Data retrieved successfully');
+        return $this->sendResponse($data['data'], 'Data retrieved successfully');
     }
 
     public function update($master_table_name, Request $request, $id)

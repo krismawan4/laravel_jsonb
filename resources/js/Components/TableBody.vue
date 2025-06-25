@@ -48,7 +48,7 @@
 
                 <td class="px-6 py-4 whitespace-nowrap">
                     <button
-                        @click="$emit('edit', row)"
+                        @click="$emit('edit', props.master_table_id, row.id)"
                         class="mr-2 text-blue-600 hover:text-blue-900"
                     >
                         Edit

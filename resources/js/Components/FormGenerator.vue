@@ -1,27 +1,12 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
 import { useFormSchemaStore } from "@/stores/formSchemaStore";
+const store = useFormSchemaStore();
 
 const props = defineProps({
     master_table_id: {
         type: [String, Number],
         required: true,
     },
-});
-
-const store = useFormSchemaStore();
-const formValues = ref({});
-
-watch(
-    () => props.master_table_id,
-    (newId) => {
-        store.fetchSchema(newId);
-        formValues.value = {}; // reset form
-    }
-);
-
-onMounted(() => {
-    store.fetchSchema(props.master_table_id);
 });
 
 function getProp(componentProps, key) {
@@ -36,7 +21,7 @@ function getValidationMessage(componentProps, key) {
 
 async function submitForm() {
     try {
-        await store.submitData(props.master_table_id, formValues.value);
+        await store.submitData(props.master_table_id, store.formValues);
         alert("Data berhasil dikirim!");
     } catch (err) {
         alert(`Gagal submit: ${store.error}`);
@@ -56,7 +41,7 @@ async function submitForm() {
                 <input
                     v-if="field.type === 'text'"
                     type="text"
-                    v-model="formValues[field.field_name]"
+                    v-model="store.formValues[field.field_name]"
                     :placeholder="field.placeholder"
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
                     :maxlength="getProp(field.component_props, 'max_length')"
@@ -69,7 +54,7 @@ async function submitForm() {
                 <input
                     v-else-if="field.type === 'number'"
                     type="number"
-                    v-model="formValues[field.field_name]"
+                    v-model="store.formValues[field.field_name]"
                     :placeholder="field.placeholder"
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
                     :maxlength="getProp(field.component_props, 'max_length')"

@@ -44,7 +44,8 @@ const props = defineProps({
                 <h1 class="text-2xl font-bold">
                     Daftar Data {{ props.master_table_name }}
                 </h1>
-                <PrimaryButton @click="formStore.openCreateModal"
+                <PrimaryButton
+                    @click="formStore.openCreateModal(props.master_table_id)"
                     >Tambah Data {{ props.master_table_name }}</PrimaryButton
                 >
             </div>
