@@ -64,6 +64,19 @@ async function submitForm() {
                     "
                 />
 
+                <input
+                    v-else-if="field.type === 'email'"
+                    type="email"
+                    v-model="store.formValues[field.field_name]"
+                    :placeholder="field.placeholder"
+                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
+                    :maxlength="getProp(field.component_props, 'max_length')"
+                    :minlength="getProp(field.component_props, 'min_length')"
+                    :required="
+                        getProp(field.component_props, 'is_required') === 'true'
+                    "
+                />
+
                 <!-- Tambahkan komponen lain sesuai type jika perlu -->
                 <p class="mt-1 text-xs italic text-red-500">
                     {{
