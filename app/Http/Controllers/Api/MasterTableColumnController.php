@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\JsonHelper;
 use App\Http\Controllers\Controller;
 use App\Models\MasterTable;
 use App\Models\MasterTableColumn;
+use App\Models\MasterTableData;
 use App\Traits\SendResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MasterTableColumnController extends Controller
@@ -55,6 +58,7 @@ class MasterTableColumnController extends Controller
 
     public function store(Request $request)
     {
+        DB::beginTransaction();
         try {
             $validated = $request->validate([
                 'master_table_id' => 'required',
@@ -65,9 +69,20 @@ class MasterTableColumnController extends Controller
             $validated['master_table_name'] = $master_table->name;
             $data = MasterTableColumn::create($validated);
 
+            // Add field to existing master_table_data records with null value
+            JsonHelper::addJsonField(
+                'master_table_data',
+                'data',
+                $validated['data']['field_name'], // field name
+                null, // default value
+                'master_table_id',
+                $validated['master_table_id']
+            );
+
+            DB::commit();
             return $this->sendResponse($data, 'Data created successfully');
         } catch (\Throwable $e) {
-
+            DB::rollBack();
             return $this->sendExceptionResponse($e);
         }
     }
@@ -110,13 +125,26 @@ class MasterTableColumnController extends Controller
 
     public function destroy($master_table_id, $id)
     {
-        $data = MasterTableColumn::where('master_table_id', $master_table_id)->find($id);
-        if (! $data) {
+        $data_column = MasterTableColumn::where('master_table_id', $master_table_id)->find($id);
+
+        if (! $data_column) {
             return $this->sendResponse([], 'Data not found', false, 404);
         }
 
-        $data->delete();
+        $field_name = $data_column->data['field_name'];
 
-        return $this->sendResponse([], 'Data deleted successfully');
+        DB::beginTransaction();
+        try {
+            JsonHelper::removeJsonField('master_table_data', 'data', $field_name, 'master_table_id', $master_table_id);
+
+            $data_column->delete();
+
+            DB::commit();
+            return $this->sendResponse([], 'Data deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->sendResponse([], 'Failed to delete data: ' . $e->getMessage(), false, 500);
+        }
     }
+
 }
